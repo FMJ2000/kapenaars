@@ -4,6 +4,10 @@
 #include "game.hpp"
 #include "game_state.hpp"
 
+void Game::loadTextures() {
+	texmgr.loadTexture("background", "media/background.png");
+}
+
 void Game::pushState(GameState * state) {
 	this->states.push(state);
 	return;
