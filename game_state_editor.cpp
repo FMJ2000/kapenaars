@@ -39,6 +39,16 @@ void GameStateEditor::handleInput() {
 			case sf::Event::MouseButtonReleased:
 				if (event.mouseButton.button == sf::Mouse::Middle) this->actionState = ActionState::NONE;
 				break;
+
+			case sf::Event::MouseWheelMoved:
+				if (event.mouseWheel.delta < 0) {
+					this->gameView.zoom(2.0f);
+					this->zoomLevel *= 2.0f;
+				} else {
+					this->gameView.zoom(0.5f);
+					this->zoomLevel *= 0.5f;
+				}
+				break;
 				
 			case sf::Event::Closed:
 				this->game->window.close();
@@ -46,6 +56,7 @@ void GameStateEditor::handleInput() {
 
 			case sf::Event::Resized:
 				this->gameView.setSize(event.size.width, event.size.height);
+				this->gameView.zoom(this->zoomLevel);
 				this->guiView.setSize(event.size.width, event.size.height);
 				this->game->background.setPosition(this->game->window.mapPixelToCoords(sf::Vector2i(0, 0), this->guiView));
 				this->game->background.setScale(float(event.size.width) / float(this->game->background.getTexture()->getSize().x), float(event.size.height) / float(this->game->background.getTexture()->getSize().y));

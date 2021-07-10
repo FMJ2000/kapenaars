@@ -6,6 +6,39 @@
 #include "map.hpp"
 #include "tile.hpp"
 
+void Map::select(sf::Vector2i start, sf::Vector2i end, std::vector<TileType> blacklist) {
+	if (end.y < start.y) std::swap(start.y, end.y);
+	if (end.x < start.x) std::swap(start.x, end.x);
+	if (end.x >= this->width) end.x = this->width - 1;
+	else if (end.x < 0) end.x = 0;
+	if (end.y >= this->height) end.y = this->height - 1;
+	else if (end.y < 0) end.y = 0;
+	if (start.x >= this->width) start.x = this->width - 1;
+	else if (start.x < 0) start.x = 0;
+	if (start.y >= this->height) start.y = this->height - 1;
+	else if (start.y < 0) start.y = 0;
+	for (int y = start.y; y <= end.y; ++y) {
+		for (int x = start.x; x <= end.x; ++x) {
+			this->selected[y * this->width + x] = 1;
+			++this->numSelected;
+			for (auto type : blacklist) {
+				if (this->tiles[y * this->width + x].tileType == type) {
+					this->selected[y * this->width + x] = 2;
+					--this->numSelected;
+					break;
+				}
+			}
+		}
+	}
+	return;
+}
+
+void Map::clearSelected() {
+	for (auto & tile : this->selected) tile = 0;
+	this->numSelected = 0;
+	return;
+}
+
 void Map::load(const std::string &filename, unsigned int width, unsigned int height, std::map<std::string, Tile> &tileAtlas) {
 	std::ifstream inputFile;
 	inputFile.open(filename, std::ios::in | std::ios::binary);
