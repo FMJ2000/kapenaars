@@ -3,9 +3,23 @@
 #include <SFML/System.hpp>
 #include "game.hpp"
 #include "game_state.hpp"
+#include "texture_manager.hpp"
+#include "animation_handler.hpp"
 
 void Game::loadTextures() {
 	texmgr.loadTexture("background", "media/background.png");
+}
+
+void Game::loadTiles() {
+	Animation staticAnim(0, 0, 1.0f);
+	this->tileAtlas["grass"] = Tile(this->tileSize, 1, texmgr.getRef("grass"), { staticAnim }, TileType::GRASS, 50, 0, 1);
+	this->tileAtlas["forest"] = Tile(this->tileSize, 1, texmgr.getRef("forest"), { staticAnim }, TileType::FOREST, 100, 0, 1);
+	this->tileAtlas["water"] = Tile(this->tileSize, 1, texmgr.getRef("water"), { Animation(0, 3, 0.5f), Animation(0, 3, 0.5f), Animation(0, 3, 0.5f) }, TileType::WATER, 0, 0, 1);
+	this->tileAtlas["residential"] = Tile(this->tileSize, 2, texmgr.getRef("residential"), { staticAnim, staticAnim, staticAnim, staticAnim, staticAnim, staticAnim }, TileType::RESIDENTIAL, 300, 50, 6);
+	this->tileAtlas["commercial"] = Tile(this->tileSize, 2, texmgr.getRef("commercial"), { staticAnim, staticAnim, staticAnim, staticAnim }, TileType::COMMERCIAL, 300, 50, 4);
+	this->tileAtlas["industrial"] = Tile(this->tileSize, 2, texmgr.getRef("industrial"), { staticAnim, staticAnim, staticAnim, staticAnim }, TileType::INDUSTRIAL, 300, 50, 4);
+	this->tileAtlas["road"] = Tile(this->tileSize, 1, texmgr.getRef("road"), { staticAnim, staticAnim, staticAnim, staticAnim, staticAnim, staticAnim, staticAnim, staticAnim, staticAnim, staticAnim, staticAnim }, TileType::ROAD, 100, 0, 1);
+	return;
 }
 
 void Game::pushState(GameState * state) {
@@ -46,8 +60,10 @@ void Game::gameLoop() {
 }
 
 Game::Game() {
+	this->loadTextures();
 	this->window.create(sf::VideoMode(800, 600), NAME);
 	this->window.setFramerateLimit(60);
+	this->background.setTexture(this->texmgr.getRef("background"));
 }
 
 Game::~Game() {

@@ -14,4 +14,6 @@ class TextureManager {
 		sf::Texture & getRef(const std::string &texture);
 
 		TextureManager() { }
-}
+};
+
+#endif

@@ -1,17 +1,22 @@
 CC = g++
 CFLAGS = -Wall -g 
 SFMLFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+OBJECTS = main.o texture_manager.o game.o game_state_start.o game_state_editor.o animation_handler.o tile.o
 
-main: main.o game.o game_state_start.o game_state_editor.o texture_manager.o
-	$(CC) $(CFLAGS) -o main main.o game.o $(SFMLFLAGS)
+main: $(OBJECTS)
+	$(CC) $(CFLAGS) -o main $(OBJECTS) $(SFMLFLAGS)
 
 main.o: main.cpp game.hpp game_state_start.hpp
 	$(CC) $(CFLAGS) -c main.cpp 
 
-game.o: game.hpp game_state.hpp
+texture_manager.o: texture_manager.hpp
+
+game.o: game.hpp game_state.hpp texture_manager.hpp tile.hpp animation_handler.hpp
 
 game_state_start.o: game_state_start.hpp game_state_editor.hpp game_state.hpp
 
 game_state_editor.o: game_state.hpp game_state_editor.hpp
 
-texture_manager.o: texture_manager.hpp
+animation_handler.o: animation_handler.hpp
+
+tile.o: animation_handler.hpp tile.hpp

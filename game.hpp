@@ -3,7 +3,10 @@
 
 #include <stack>
 #include <SFML/Graphics.hpp>
+#include <map>
+#include <string>
 #include "texture_manager.hpp"
+#include "tile.hpp"
 
 #define NAME "kapenaars"
 
@@ -12,8 +15,11 @@ class GameState;
 class Game {
 	private:
 		void loadTextures();
+		void loadTiles();
 
 	public:
+		const static int tileSize = 8;
+		std::map<std::string, Tile> tileAtlas;
 		std::stack<GameState *> states;
 		sf::RenderWindow window;
 		TextureManager texmgr;
