@@ -3,10 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include "game_state.hpp"
+#include "gui.hpp"
 
 class GameStateStart: public GameState {
 	private:
 		sf::View view;
+		std::map<std::string, Gui> guiSystem;
 		void loadgame();
 	
 	public:

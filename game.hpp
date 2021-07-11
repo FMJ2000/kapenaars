@@ -7,6 +7,7 @@
 #include <string>
 #include "texture_manager.hpp"
 #include "tile.hpp"
+#include "gui.hpp"
 
 #define NAME "kapenaars"
 
@@ -16,10 +17,14 @@ class Game {
 	private:
 		void loadTextures();
 		void loadTiles();
+		void loadStylesheets();
+		void loadFonts();
 
 	public:
 		const static int tileSize = 8;
 		std::map<std::string, Tile> tileAtlas;
+		std::map<std::string, GuiStyle> stylesheets;
+		std::map<std::string, sf::Font> fonts;
 		std::stack<GameState *> states;
 		sf::RenderWindow window;
 		TextureManager texmgr;
