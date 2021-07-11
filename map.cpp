@@ -46,6 +46,7 @@ void Map::load(const std::string &filename, unsigned int width, unsigned int hei
 	this->height = height;
 	for (int pos = 0; pos < this->width * this->height; ++pos) {
 		this->resources.push_back(255);
+		this->selected.push_back(0);
 		TileType tileType;
 		inputFile.read((char *)&tileType, sizeof(int));
 		switch (tileType) {
@@ -104,6 +105,8 @@ void Map::draw(sf::RenderWindow &window, float dt) {
 			pos.x = (x - y) * this->tileSize + this->width * this->tileSize;
 			pos.y = (x + y) * this->tileSize * 0.5;
 			this->tiles[y * this->width + x].sprite.setPosition(pos);
+			if (this->selected[y * this->width + x]) this->tiles[y * this->width + x].sprite.setColor(sf::Color(0x7d, 0x7d, 0x7d));
+			else this->tiles[y * this->width + x].sprite.setColor(sf::Color(0xff, 0xff, 0xff));
 			this->tiles[y * this->width + x].draw(window, dt);
 		}
 	}
